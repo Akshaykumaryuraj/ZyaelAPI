@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using Zyael_DAL;
-namespace DAL
+namespace Zyael_DAL
 {
     public class common
     {
