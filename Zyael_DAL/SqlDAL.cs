@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Text;
 using static Azure.Core.HttpHeader;
 
-namespace DAL
+namespace Zyael_DAL
 {
     public class SqlDAL
     {
