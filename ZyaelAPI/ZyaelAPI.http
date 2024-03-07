@@ -1,0 +1,6 @@
+@ZyaelAPI_HostAddress = http://localhost:5164
+
+GET {{ZyaelAPI_HostAddress}}/LoginController/
+Accept: application/json
+
+###
