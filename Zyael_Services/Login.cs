@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zyael_DAL;
-using Zyael_Models;
+using Zyael_Models.Logins;
 namespace Zyael_Services
 {
     public class Login
@@ -25,6 +25,19 @@ namespace Zyael_Services
             try
             {
                 var result = await _logindal.SetAdminLogin(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<HospitalsVendorsLoginModel> SetHositalVendorLogin(HospitalsVendorsLoginModel item)
+        {
+            try
+            {
+                var result = await _logindal.SetHositalVendorLogin(item);
                 return result;
             }
             catch (Exception ex)
