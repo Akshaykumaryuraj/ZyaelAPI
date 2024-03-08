@@ -8,7 +8,7 @@ using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Zyael_Models;
+using Zyael_Models.Logins;
 namespace Zyael_DAL
 {
     public class LoginDAL : SqlDAL
@@ -49,7 +49,36 @@ namespace Zyael_DAL
             }
         }
 
-      
+
+        public async Task<HospitalsVendorsLoginModel> SetHositalVendorLogin(HospitalsVendorsLoginModel item)
+        {
+            //var password = common.PasswordEncription(item.Password);
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                        new
+                        {
+
+                            HospitalVendorEmail = item.HospitalVendorEmail,
+                            HospitalVendorPassword = item.HospitalVendorPassword,
+                            status = item.status
+
+                        };
+                    return (await con.QueryAsync<HospitalsVendorsLoginModel>("sp_checkHospitalsVendorLoginDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
 
     }
 }
