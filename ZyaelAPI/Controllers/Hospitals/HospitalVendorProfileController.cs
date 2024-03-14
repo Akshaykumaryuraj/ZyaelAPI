@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Zyael_Models.Hospitals;
-using Zyael_Services;
+using Zyael_Services.Con_Services;
 
 namespace ZyaelAPI.Controllers.Hospitals
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HospitalUserProfileController : ControllerBase
+    public class HospitalVendorProfileController : ControllerBase
     {
         readonly IHttpContextAccessor _httpContextAccessor;
         readonly IHostEnvironment _hostingEnvironment;
-        public HospitalUserProfile _hospitaluserprofile;
+        public HospitalVendorProfile _hospitalvendorprofile;
 
 
-        public HospitalUserProfileController(IHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IConfiguration config)
+        public HospitalVendorProfileController(IHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
             this._hostingEnvironment = hostingEnvironment;
             this._httpContextAccessor = httpContextAccessor;
-            _hospitaluserprofile = new HospitalUserProfile(httpContextAccessor, config);
+            _hospitalvendorprofile = new HospitalVendorProfile(httpContextAccessor, config);
         }
 
 
@@ -27,10 +27,10 @@ namespace ZyaelAPI.Controllers.Hospitals
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
-        public async Task<IActionResult> GetAllHospitalUserProfileDetails()
+        public async Task<IActionResult> GetAllHospitalVendorProfileDetails()
         {
-            List<HospitalUserProfileModel> list = new List<HospitalUserProfileModel>();
-            list = await _hospitaluserprofile.GetAllHospitalUserProfileDetails();
+            List<HospitalVendorProfileModel> list = new List<HospitalVendorProfileModel>();
+            list = await _hospitalvendorprofile.GetAllHospitalVendorProfileDetails();
 
             return Ok(list);
 

@@ -11,18 +11,18 @@ using Zyael_Models.Hospitals;
 
 namespace Zyael_DAL.HospitalUserProfile
 {
-    public class HospitalUserProfileDAL:SqlDAL
+    public class HospitalVendorProfileDAL:SqlDAL
     {
         readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _config;
-        public HospitalUserProfileDAL(IHttpContextAccessor httpContextAccessor, IConfiguration config)
+        public HospitalVendorProfileDAL(IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
             this._httpContextAccessor = httpContextAccessor;
             _config = config;
         }
 
 
-        public async Task<List<HospitalUserProfileModel>> GetAllHospitalUserProfileDetails()
+        public async Task<List<HospitalVendorProfileModel>> GetAllHospitalVendorProfileDetails()
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Zyael_DAL.HospitalUserProfile
                             {
 
                             };
-                    return (await con.QueryAsync<HospitalUserProfileModel>("Sp_GetAllHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                    return (await con.QueryAsync<HospitalVendorProfileModel>("Sp_GetAllHospitalPofileDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
                 }
             }
             catch (Exception ex)

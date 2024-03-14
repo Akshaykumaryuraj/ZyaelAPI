@@ -9,24 +9,24 @@ using Zyael_DAL.Hospital;
 using Zyael_DAL.PharmacyDAL;
 using Zyael_Models.Hospitals;
 using Zyael_Models.PharmacyModel;
-namespace Zyael_Services
+namespace Zyael_Services.Con_Services
+{
+    public class Pharmacy
     {
-        public class Pharmacy
+        readonly IHttpContextAccessor _httpContextAccessor;
+        public PharmacyDAL _pharmacydal;
+        public Pharmacy(IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
-            readonly IHttpContextAccessor _httpContextAccessor;
-            public PharmacyDAL _pharmacydal;
-            public Pharmacy(IHttpContextAccessor httpContextAccessor, IConfiguration config)
-            {
-                this._httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
             _pharmacydal = new PharmacyDAL(httpContextAccessor, config);
-            }
+        }
 
 
-        public async Task<PharmacyModel> PharmacyVendorCredentialAdd(int PharmacyVendorID)
+        public async Task<PharmacyModel> PharmacyVendorCredentialAdd(int PVID)
         {
             try
             {
-                var result = await _pharmacydal.PharmacyVendorCredentialAdd(PharmacyVendorID);
+                var result = await _pharmacydal.PharmacyVendorCredentialAdd(PVID);
                 return result;
             }
             catch (Exception ex)
@@ -48,11 +48,11 @@ namespace Zyael_Services
             }
         }
 
-        public async Task<PharmacyModel> PharmacyVendorCredentialDetailsDelete(int PharmacyVendorID)
+        public async Task<PharmacyModel> PharmacyVendorCredentialDetailsDelete(int PVID)
         {
             try
             {
-                var result = await _pharmacydal.PharmacyVendorCredentialDetailsDelete(PharmacyVendorID);
+                var result = await _pharmacydal.PharmacyVendorCredentialDetailsDelete(PVID);
                 return result;
             }
             catch (Exception ex)

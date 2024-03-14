@@ -9,7 +9,7 @@ using Zyael_DAL;
 using Zyael_DAL.Hospital;
 using Zyael_Models.Hospitals;
 
-namespace Zyael_Services
+namespace Zyael_Services.Con_Services
 {
     public class Hospital
     {
@@ -17,7 +17,7 @@ namespace Zyael_Services
         public HospitalDAL _hospitaldal;
         public Hospital(IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
-            this._httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
             _hospitaldal = new HospitalDAL(httpContextAccessor, config);
         }
 

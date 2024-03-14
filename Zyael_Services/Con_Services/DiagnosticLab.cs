@@ -10,7 +10,7 @@ using Zyael_DAL.Hospital;
 using Zyael_Models.DiagnosticLabs;
 using Zyael_Models.Hospitals;
 
-namespace Zyael_Services
+namespace Zyael_Services.Con_Services
 {
     public class DiagnosticLab
     {
@@ -18,15 +18,15 @@ namespace Zyael_Services
         public DiagnosticDAL _diagnosticdal;
         public DiagnosticLab(IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
-            this._httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
             _diagnosticdal = new DiagnosticDAL(httpContextAccessor, config);
         }
 
-        public async Task<DiagnosticLabModel> DiagnosticLabCredentialAdd(int DiagnosticLabVendorID)
+        public async Task<DiagnosticLabModel> DiagnosticLabCredentialAdd(int DLVID)
         {
             try
             {
-                var result = await _diagnosticdal.DiagnosticLabCredentialAdd(DiagnosticLabVendorID);
+                var result = await _diagnosticdal.DiagnosticLabCredentialAdd(DLVID);
                 return result;
             }
             catch (Exception ex)
@@ -48,11 +48,25 @@ namespace Zyael_Services
             }
         }
 
-        public async Task<HospitalModel> DiagnosticLabCredentialDetailsDelete(int DiagnosticLabVendorID)
+        public async Task<HospitalModel> DiagnosticLabCredentialDetailsDelete(int DLVID)
         {
             try
             {
-                var result = await _diagnosticdal.DiagnosticLabCredentialDetailsDelete(DiagnosticLabVendorID);
+                var result = await _diagnosticdal.DiagnosticLabCredentialDetailsDelete(DLVID);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<List<DiagnosticLabModel>> GetAllDiagnosticCredentialDetails()
+        {
+            try
+            {
+                var result = await _diagnosticdal.GetAllDiagnosticCredentialDetails();
                 return result;
             }
             catch (Exception ex)
