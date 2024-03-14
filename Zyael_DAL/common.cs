@@ -34,7 +34,7 @@ namespace Zyael_DAL
             string exeConfigPath = typeof(common).Assembly.Location;
             try
             {
-                config = ConfigurationManager.OpenExeConfiguration(exeConfigPath);
+                config = System.Configuration.ConfigurationManager.OpenExeConfiguration(exeConfigPath);
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zyael_Models.Hospitals
 {
-    public class HospitalUserProfileModel
+    public class HospitalVendorProfileModel
     {
 
     }

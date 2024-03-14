@@ -5,8 +5,9 @@ using System.Security.Claims;
 using Zyael_Models;
 using Zyael_Models.Logins;
 using Zyael_Services;
+using Zyael_Services.Con_Services;
 
-namespace ZyaelAPI.Controllers
+namespace ZyaelAPI.Controllers.Logins
 {
     //[Route("api/Login")]
 
@@ -21,8 +22,8 @@ namespace ZyaelAPI.Controllers
 
         public LoginController(IHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
-            this._hostingEnvironment = hostingEnvironment;
-            this._httpContextAccessor = httpContextAccessor;
+            _hostingEnvironment = hostingEnvironment;
+            _httpContextAccessor = httpContextAccessor;
             _login = new Login(httpContextAccessor, config);
         }
 
@@ -76,26 +77,26 @@ namespace ZyaelAPI.Controllers
 
 
 
-            [Route("api/[controller]/[action]")]
-            [HttpGet]
-            [ProducesResponseType(StatusCodes.Status200OK)]
-            public ActionResult<IEnumerable<VillaDTO>> GetVillas()
-            {
-                return Ok(VillaStore.GetVillaList);
-            }
+        [Route("api/[controller]/[action]")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<VillaDTO>> GetVillas()
+        {
+            return Ok(VillaStore.GetVillaList);
+        }
 
 
 
-            private IActionResult Json(int returnId)
-            {
-                throw new NotImplementedException();
+        private IActionResult Json(int returnId)
+        {
+            throw new NotImplementedException();
 
 
-
-
-            }
 
 
         }
+
+
     }
+}
 

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Zyael_DAL;
 using Zyael_Models.Logins;
-namespace Zyael_Services
+namespace Zyael_Services.Con_Services
 {
     public class Login
     {
@@ -15,8 +15,8 @@ namespace Zyael_Services
         public LoginDAL _logindal;
         public Login(IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
-            this._httpContextAccessor = httpContextAccessor;
-            _logindal = new LoginDAL(httpContextAccessor,config);
+            _httpContextAccessor = httpContextAccessor;
+            _logindal = new LoginDAL(httpContextAccessor, config);
         }
 
 

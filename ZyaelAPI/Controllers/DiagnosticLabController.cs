@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Zyael_Models.DiagnosticLabs;
 using Zyael_Models.Hospitals;
-using Zyael_Services;
+using Zyael_Services.Con_Services;
 
 namespace ZyaelAPI.Controllers
 {
@@ -26,14 +26,14 @@ namespace ZyaelAPI.Controllers
         //[Route("api/[controller]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DiagnosticLabCredentialAdd(int DiagnosticLabVendorID)
+        public async Task<IActionResult> DiagnosticLabCredentialAdd(int DLVID)
         {
             DiagnosticLabModel item = new DiagnosticLabModel();
-            if (DiagnosticLabVendorID > 0)
+            if (DLVID > 0)
             {
-                item = await _diagnosticLab.DiagnosticLabCredentialAdd(DiagnosticLabVendorID);
+                item = await _diagnosticLab.DiagnosticLabCredentialAdd(DLVID);
 
-                item.DiagnosticLabVendorID = DiagnosticLabVendorID;
+                item.DLVID = DLVID;
             }
 
             return Ok(item);
@@ -75,5 +75,19 @@ namespace ZyaelAPI.Controllers
             return Ok(respose);
 
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet]
+        public async Task<IActionResult> GetAllDiagnosticCredentialDetails()
+        {
+            List<DiagnosticLabModel> list = new List<DiagnosticLabModel>();
+            list = await _diagnosticLab.GetAllDiagnosticCredentialDetails();
+
+            return Ok(list);
+
+        }
+
     }
 }

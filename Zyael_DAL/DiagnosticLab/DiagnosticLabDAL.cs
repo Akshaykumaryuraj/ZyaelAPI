@@ -23,7 +23,7 @@ namespace Zyael_DAL.DiagnosticLab
             _config = config;
         }
 
-        public async Task<DiagnosticLabModel> DiagnosticLabCredentialAdd(int DiagnosticLabVendorID)
+        public async Task<DiagnosticLabModel> DiagnosticLabCredentialAdd(int DLVID)
         {
             try
             {
@@ -34,10 +34,10 @@ namespace Zyael_DAL.DiagnosticLab
                     var Param =
                             new
                             {
-                                DiagnosticLabVendorID = DiagnosticLabVendorID
+                                DLVID = DLVID
 
                             };
-                    return (await con.QueryAsync<DiagnosticLabModel>("Sp_GetHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                    return (await con.QueryAsync<DiagnosticLabModel>("Sp_GetDiagnosticVendorCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -57,14 +57,24 @@ namespace Zyael_DAL.DiagnosticLab
                     var Param =
                             new
                             {
-                                DiagnosticLabVendorID = item.DiagnosticLabVendorID,
-                                DiagnosticLabVendorEmail = item.DiagnosticLabVendorEmail,
-                                DiagnosticLabVendorPassword = item.DiagnosticLabVendorPassword,
-                                DiagnosticLabVendorUserName = item.DiagnosticLabVendorUserName,
-                                status = item.status,
+                                DLVID = item.DLVID,
+                                FirstName = item.FirstName,
+                                LastName = item.LastName,
+                                Email = item.Email,
+                                Password = item.Password,
+                                UserName = item.UserName,
+                                Gender = item.Gender,
+                                Mobile = item.Mobile,
+                                Address1 = item.Address1,
+                                Address2 = item.Address2,
+                                Country = item.Country,
+                                State = item.State,
+                                City = item.City,
+                                status= item.status
+
 
                             };
-                    var response = await con.ExecuteScalarAsync<int>("Sp_SetHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetDiagnosticVendorCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
                 }
             }
@@ -75,7 +85,7 @@ namespace Zyael_DAL.DiagnosticLab
         }
 
 
-        public async Task<HospitalModel> DiagnosticLabCredentialDetailsDelete(int DiagnosticLabVendorID)
+        public async Task<HospitalModel> DiagnosticLabCredentialDetailsDelete(int DLVID)
         {
             try
             {
@@ -87,10 +97,10 @@ namespace Zyael_DAL.DiagnosticLab
                     var Param =
                             new
                             {
-                                DiagnosticLabVendorID = DiagnosticLabVendorID
+                                DLVID = DLVID
 
                             };
-                    var response = await con.ExecuteScalarAsync<HospitalModel>("SP_getHospitalDetailsDelete", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    var response = await con.ExecuteScalarAsync<HospitalModel>("SP_getDiagnosticVendorCredentialDetailsDelete", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
                 }
             }
@@ -99,5 +109,29 @@ namespace Zyael_DAL.DiagnosticLab
                 return null;
             }
         }
+
+
+        public async Task<List<DiagnosticLabModel>> GetAllDiagnosticCredentialDetails()
+        {
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+
+                            };
+                    return (await con.QueryAsync<DiagnosticLabModel>("Sp_GetAllDiagnosticLabCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

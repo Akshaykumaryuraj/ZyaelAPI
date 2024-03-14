@@ -24,7 +24,7 @@ namespace Zyael_DAL.PharmacyDAL
         }
 
 
-        public async Task<PharmacyModel> PharmacyVendorCredentialAdd(int PharmacyVendorID)
+        public async Task<PharmacyModel> PharmacyVendorCredentialAdd(int PVID)
         {
             try
             {
@@ -35,10 +35,10 @@ namespace Zyael_DAL.PharmacyDAL
                     var Param =
                             new
                             {
-                                PharmacyVendorID = PharmacyVendorID
+                                PVID = PVID
 
                             };
-                    return (await con.QueryAsync<PharmacyModel>("Sp_GetHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                    return (await con.QueryAsync<PharmacyModel>("Sp_GetPharmacyVendorCredentialDetailsById", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -60,20 +60,27 @@ namespace Zyael_DAL.PharmacyDAL
                     var Param =
                             new
                             {
-                                HospitalVendorID = item.PharmacyVendorID,
-                                HospitalVendorEmail = item.PharmacyVendorEmail,
-                                HospitalVendorPassword = item.PharmacyVendorPassword,
-                                HospitalVendorUserName = item.PharmacyVendorUserName,
-                                status = item.status,
-                                FirstName = item.PharmacyVendorFirstName,
-                                LastName = item.PharmacyVendorLastName
+                                PVID = item.PVID,
+                                FirstName = item.FirstName,
+                                LastName = item.LastName,
+                                Email = item.Email,
+                                Password = item.Password,
+                                UserName = item.UserName,
+                                Gender = item.Gender,
+                                Mobile = item.Mobile,
+                                Address1 = item.Address1,
+                                Address2 = item.Address2,
+                                Country = item.Country,
+                                State = item.State,
+                                City = item.City,
+                                status = item.status
 
 
 
 
 
                             };
-                    var response = await con.ExecuteScalarAsync<int>("Sp_SetHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetPharmacyVendorCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
                 }
             }
@@ -83,7 +90,7 @@ namespace Zyael_DAL.PharmacyDAL
             }
         }
 
-        public async Task<PharmacyModel> PharmacyVendorCredentialDetailsDelete(int PharmacyVendorID)
+        public async Task<PharmacyModel> PharmacyVendorCredentialDetailsDelete(int PVID)
         {
             try
             {
@@ -95,10 +102,10 @@ namespace Zyael_DAL.PharmacyDAL
                     var Param =
                             new
                             {
-                                PharmacyVendorID = PharmacyVendorID
+                                PVID = PVID
 
                             };
-                    var response = await con.ExecuteScalarAsync<PharmacyModel>("SP_getHospitalDetailsDelete", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    var response = await con.ExecuteScalarAsync<PharmacyModel>("SP_getPharmacyVendorCredentialDetailsDelete", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
                 }
             }
@@ -121,7 +128,7 @@ namespace Zyael_DAL.PharmacyDAL
                             {
 
                             };
-                    return (await con.QueryAsync<PharmacyModel>("Sp_GetAllHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                    return (await con.QueryAsync<PharmacyModel>("Sp_GetAllPharmacyVendorCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
                 }
             }
             catch (Exception ex)

@@ -1,14 +1,14 @@
 ﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Zyael_Services;
 using Zyael_Models;
 using Zyael_Models.Logins;
 using Zyael_Models.Hospitals;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
+using Zyael_Services.Con_Services;
 
-namespace ZyaelAPI.Controllers
+namespace ZyaelAPI.Controllers.Hospitals
 {
 
     [Route("api/[controller]")]
@@ -21,8 +21,8 @@ namespace ZyaelAPI.Controllers
 
         public HospitalsController(IHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
-            this._hostingEnvironment = hostingEnvironment;
-            this._httpContextAccessor = httpContextAccessor;
+            _hostingEnvironment = hostingEnvironment;
+            _httpContextAccessor = httpContextAccessor;
             _hospital = new Hospital(httpContextAccessor, config);
         }
 
@@ -41,10 +41,10 @@ namespace ZyaelAPI.Controllers
             }
 
             return Ok(item);
-           
+
         }
 
-        
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
@@ -53,7 +53,7 @@ namespace ZyaelAPI.Controllers
             HospitalModel test = new HospitalModel();
 
             var result = await _hospital.HospitalCredentialDetails_InsertUpdate(item);
-            
+
             if (result == 0)
             {
 
@@ -63,7 +63,7 @@ namespace ZyaelAPI.Controllers
 
 
             }
-            else if(result == 2)
+            else if (result == 2)
             {
                 test.returnId = result;
                 test.message = "updated successfully";
