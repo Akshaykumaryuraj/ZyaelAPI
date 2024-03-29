@@ -8,11 +8,13 @@ namespace Zyael_Models.Users
 {
     public class UserProfileModel
     {
+        public int UserPID { get; set; }
+        public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Int64 ContactNumber { get; set; }
         public string Gender { get; set; }
-        public DateTime DOB { get; set; }
+        public string DOB { get; set; }
         public string BloodGroup { get; set; }
         public string MaritalStatus  { get; set; }
         public string Height  { get; set; }
@@ -30,5 +32,7 @@ namespace Zyael_Models.Users
         public string Alcohol { get; set; }
         public string FoodPreference { get; set; }
         public string Occupation { get; set; }
+        public int returnId { get; set; }
+        public string message { get; set; }
     }
 }

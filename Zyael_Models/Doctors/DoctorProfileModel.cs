@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Zyael_Models.Doctors
 {
-    public class DoctorRegistrationModel
+    public class DoctorProfileModel
     {
-        public int DoctorID { get; set; }
-        public String EmailAddress { get; set; }
-        public String Password { get; set; }
-        public String UserName { get; set; }
+        public int DoctorPId { get; set; }
+    
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String Gender { get; set; }
@@ -24,10 +22,5 @@ namespace Zyael_Models.Doctors
         public String City { get; set; }
         public String ProficientLanguage { get; set; }
         public String Specialization { get; set; }
-        public String message { get; set; }
-        public int AdminID { get; set; }
-        public int MedicalID { get; set; }
-        public int UserID { get; set; }
-        public int returnId { get; set; }
     }
 }

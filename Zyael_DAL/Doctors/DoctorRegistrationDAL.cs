@@ -73,8 +73,6 @@ namespace Zyael_DAL.Doctors
                                 City = item.City,
                                 ProficientLanguage = item.ProficientLanguage,
                                 Specialization = item.Specialization,
-                                UserId = item.UserId,
-                                MedicalId = item.MedicalId,
                                 status = item.status
 
 

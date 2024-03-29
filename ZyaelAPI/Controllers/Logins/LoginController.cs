@@ -50,9 +50,6 @@ namespace ZyaelAPI.Controllers.Logins
 
         }
 
-
-
-
         [Route("api/[controller]/[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -84,8 +81,6 @@ namespace ZyaelAPI.Controllers.Logins
         {
             return Ok(VillaStore.GetVillaList);
         }
-
-
 
         private IActionResult Json(int returnId)
         {

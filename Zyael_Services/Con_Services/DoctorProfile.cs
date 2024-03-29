@@ -5,29 +5,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Zyael_DAL.Logins;
-using Zyael_DAL.Users;
-using Zyael_Models.Logins;
-using Zyael_Models.Users;
+using Zyael_DAL.Doctors;
+using Zyael_Models.Doctors;
 
 namespace Zyael_Services.Con_Services
 {
-    public  class UserProfie
+    public class DoctorProfile
     {
-
         readonly IHttpContextAccessor _httpContextAccessor;
-        public UserProfieDAL _userprofiledal;
-        public UserProfie(IHttpContextAccessor httpContextAccessor, IConfiguration config)
+        public DoctorProfileDAL _doctorprofiledal;
+        public DoctorProfile(IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
             _httpContextAccessor = httpContextAccessor;
-            _userprofiledal = new UserProfieDAL(httpContextAccessor, config);
+            _doctorprofiledal = new DoctorProfileDAL(httpContextAccessor, config);
         }
 
-        public async Task<UserProfileModel> UserProfileDetailsAdd(int UserPID)
+
+        public async Task<List<DoctorRegistrationModel>> GetAllDoctorsProfileDetails()
         {
             try
             {
-                var result = await _userprofiledal.UserLoginCredentialAdd(UserPID);
+                var result = await _doctorprofiledal.GetAllDoctorsProfileDetails();
                 return result;
             }
             catch (Exception ex)
@@ -35,17 +33,16 @@ namespace Zyael_Services.Con_Services
                 return null;
             }
         }
-
-        public async Task<int> UserProfileDetails_InsertUpdate(UserProfileModel item)
+        public async Task<DoctorProfileModel> GetDoctorsProfileDetails(int DoctorPId)
         {
             try
             {
-                var result = await _userprofiledal.UserProfileDetails_InsertUpdate(item);
+                var result = await _doctorprofiledal.GetDoctorsProfileDetails(DoctorPId);
                 return result;
             }
             catch (Exception ex)
             {
-                return -1;
+                return null;
             }
         }
     }

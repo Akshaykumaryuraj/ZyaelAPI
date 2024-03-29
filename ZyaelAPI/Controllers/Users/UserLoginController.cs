@@ -29,23 +29,23 @@ namespace ZyaelAPI.Controllers.Users
         }
 
 
-        [HttpGet("id")]
-        //[Route("api/[controller]")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UserLoginCredentialAdd(int UserID)
-        {
-            UserLoginModel item = new UserLoginModel();
-            if (UserID > 0)
-            {
-                item = await _userlogin.UserLoginCredentialAdd(UserID);
+        //[HttpGet("id")]
+        ////[Route("api/[controller]")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> UserLoginCredentialAdd(int UserID)
+        //{
+        //    UserLoginModel item = new UserLoginModel();
+        //    if (UserID > 0)
+        //    {
+        //        item = await _userlogin.UserLoginCredentialAdd(UserID);
 
-                item.UserID = UserID;
-            }
+        //        item.UserID = UserID;
+        //    }
 
-            return Ok(item);
+        //    return Ok(item);
 
-        }
+        //}
 
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -79,8 +79,8 @@ namespace ZyaelAPI.Controllers.Users
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Route("api/[Controller]")]
-        [HttpPost]
+        [HttpPost("[action]")]
+        //[HttpPost]
         public async Task<IActionResult> SetUserLogin(UserLoginModel item)
         {
             var jwtToken = "";
@@ -117,9 +117,12 @@ namespace ZyaelAPI.Controllers.Users
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     jwtToken = tokenHandler.WriteToken(token);
+
+                    result.JWT= jwtToken;
                 }
             }
-            return Ok(jwtToken);
+            return Ok(result);
+
             //if (result.returnId != -1)
             //{
             //    result.message = "Login success";
