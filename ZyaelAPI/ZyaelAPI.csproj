@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer.Hosting" Version="1.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -19,7 +20,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Zyael_Models\Zyael_Models.csproj" />
     <ProjectReference Include="..\Zyael_Services\Zyael_Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Projects\ZyaelAPI\ZyaelAPI\Controllers\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Projects\ZyaelAPI\ZyaelAPI\Controllers\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Logs\" />
   </ItemGroup>
 
 </Project>

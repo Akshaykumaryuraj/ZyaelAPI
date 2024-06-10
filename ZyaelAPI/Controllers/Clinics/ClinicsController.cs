@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Zyael_Models.Clinics;
 using Zyael_Models.Hospitals;
 using Zyael_Services;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ZyaelAPI.Controllers.Clinics
 {
@@ -45,16 +46,27 @@ namespace ZyaelAPI.Controllers.Clinics
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ClinicCredentialDetails_InsertUpdate(ClinicModel item)
         {
+            ClinicModel test = new ClinicModel();
+
             var result = await _clinic.ClinicCredentialDetails_InsertUpdate(item);
 
             if (result == 0)
             {
 
-                return Ok(result);
+                test.returnId = result;
+                test.message = "Signup successfully";
+                return Ok(test);
 
 
             }
-            return Ok(result);
+            else if (result == 2)
+            {
+                test.returnId = result;
+                test.message = "Credentials details updated successfully";
+                return Ok(test);
+
+            }
+            return Ok();
         }
 
 

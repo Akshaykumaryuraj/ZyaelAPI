@@ -9,6 +9,8 @@ namespace Zyael_Models.Logins
     public  class UserLoginModel
     {
       public int UserID { get; set; }
+      public int UserPID { get; set; }
+      public string Gender { get; set; }
 
 
         public string message { get; set; }
@@ -16,6 +18,7 @@ namespace Zyael_Models.Logins
         public Int64 PhoneNumber { get; set; }
         public string FirstName { get; set; }
         public string Password { get; set; }
+        public string UID { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public int returnId { get; set; }

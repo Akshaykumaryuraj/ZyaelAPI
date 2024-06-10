@@ -76,7 +76,10 @@ namespace Zyael_DAL.Users
                                 Smoking = item.Smoking,
                                 Alcohol = item.Alcohol,
                                 FoodPreference = item.FoodPreference,
-                                Occupation = item.Occupation
+                                Occupation = item.Occupation,
+                                ContactNumber=item.ContactNumber
+                                //UserImageName=item.UserImageName,
+                                //UserImagePath=item.UserImagePath
 
 
 
@@ -84,6 +87,36 @@ namespace Zyael_DAL.Users
 
                             };
                     var response = await con.ExecuteScalarAsync<int>("Sp_SetUserProfileDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+
+
+        public async Task<int> UserProfile_Upload(UserProfile_Upload item)
+        {
+
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+                                UserProfileImageID = item.UserProfileImageID,
+                                UserPID = item.UserPID,
+                                UserImageName = item.UserImageName,
+                                UserImagePath = item.UserImagePath
+
+                            };
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetUserProfileImageDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
                 }
             }

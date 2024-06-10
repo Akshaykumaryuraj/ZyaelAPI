@@ -46,10 +46,10 @@ namespace Zyael_DAL.DiagnosticLab
             }
         }
         public async Task<int> DiagnosticLabCredentialDetails_InsertUpdate(DiagnosticLabModel item)
-        {
+         {
 
             try
-            {
+             {
                 var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
                 using (SqlConnection con = Connection)
                 {

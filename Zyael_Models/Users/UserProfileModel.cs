@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,5 +36,22 @@ namespace Zyael_Models.Users
         public string Occupation { get; set; }
         public int returnId { get; set; }
         public string message { get; set; }
+        
+
     }
+    
+    public class UserProfile_Upload
+    {
+        public int returnId { get; set; }
+        public int UserPID { get; set; }
+        public int UserID { get; set; }
+        public int UserProfileImageID { get; set; }
+        public IFormFile UserProfileImage { get; set; }
+
+        public string UserImageName { get; set; }
+        public string UserImagePath { get; set; }
+        public string message { get; set; }
+
+    }
+
 }

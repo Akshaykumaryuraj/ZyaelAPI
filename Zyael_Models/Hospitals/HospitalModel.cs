@@ -19,6 +19,10 @@ namespace Zyael_Models.Hospitals
         public int returnId { get; set; }
 
         public bool status { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public string Address_1 { get; set; }
+        public string Address_2 { get; set; }
 
     }
 }

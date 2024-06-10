@@ -53,12 +53,12 @@ namespace ZyaelAPI.Controllers.Hospitals
             HospitalModel test = new HospitalModel();
 
             var result = await _hospital.HospitalCredentialDetails_InsertUpdate(item);
-
             if (result == 0)
             {
 
                 test.returnId = result;
-                test.message = "inserted successfully";
+                test.HospitalVendorID = result;
+                test.message = "signup sucessfull";
                 return Ok(test);
 
 

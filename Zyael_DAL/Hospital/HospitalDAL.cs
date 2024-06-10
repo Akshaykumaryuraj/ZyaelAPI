@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zyael_Models.Doctors;
 using Zyael_Models.Hospitals;
 
 namespace Zyael_DAL.Hospital
@@ -58,21 +59,23 @@ namespace Zyael_DAL.Hospital
                     var Param =
                             new
                             {
-                                HospitalVendorID = item.HospitalVendorID,
+                            HospitalVendorID = item.HospitalVendorID,
                             HospitalVendorEmail = item.HospitalVendorEmail,
                             HospitalVendorPassword = item.HospitalVendorPassword,
                             HospitalVendorUserName = item.HospitalVendorUserName,
                             status = item.status,
                             FirstName = item.FirstName,
-                            LastName  = item.LastName
-
-
-
+                            LastName  = item.LastName,
+                            Latitude  = item.Latitude,
+                            Longitude  = item.Longitude,
+                            Address_1  = item.Address_1,
+                            Address_2  = item.Address_2
 
 
                         };
                     var response = await con.ExecuteScalarAsync<int>("Sp_SetHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
+                  
                 }
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -51,7 +52,7 @@ namespace ZyaelAPI.Controllers.Users
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
-        public async Task<IActionResult> UserCredentialDetails_InsertUpdate(UserLoginModel item)
+        public async Task<IActionResult> UserCredentialDetails_InsertUpdate([FromBody] UserLoginModel item)
         {
             UserLoginModel test = new UserLoginModel();
 
@@ -61,7 +62,7 @@ namespace ZyaelAPI.Controllers.Users
             {
 
                 test.returnId = result;
-                test.message = "inserted successfully";
+                test.message = "Signup successful";
                 return Ok(test);
 
 
@@ -69,7 +70,7 @@ namespace ZyaelAPI.Controllers.Users
             else if (result == 2)
             {
                 test.returnId = result;
-                test.message = "updated successfully";
+                test.message = "Phone number already exists";
                 return Ok(test);
 
             }
@@ -77,51 +78,50 @@ namespace ZyaelAPI.Controllers.Users
         }
 
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("[action]")]
-        //[HttpPost]
-        public async Task<IActionResult> SetUserLogin(UserLoginModel item)
-        {
-            var jwtToken = "";
-            UserLoginModel result = new UserLoginModel();
-            if (item != null)
-            {
-                result = await _userlogin.SetUserLogin(item);
-                if (result.returnId == 1)
-                {
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[HttpPost("[action]")]
+        //public async Task<IActionResult> SetUserLogin(UserLoginModel item)
+        //{
+        //    var jwtToken = "";
+        //    UserLoginModel result = new UserLoginModel();
+        //    if (item != null)
+        //    {
+        //        result = await _userlogin.SetUserLogin(item);
+        //        if (result.returnId == 1)
+        //        {
 
-                    var issuer = config["Jwt:Issuer"];
-                    var audience = config["Jwt:Audience"];
-                    var key = Encoding.UTF8.GetBytes(config["Jwt:Key"]);
-                    var signingCredentials = new SigningCredentials(
-                                            new SymmetricSecurityKey(key),
-                                            SecurityAlgorithms.HmacSha512Signature
-                                        );
+        //            var issuer = config["Jwt:Issuer"];
+        //            var audience = config["Jwt:Audience"];
+        //            var key = Encoding.UTF8.GetBytes(config["Jwt:Key"]);
+        //            var signingCredentials = new SigningCredentials(
+        //                                    new SymmetricSecurityKey(key),
+        //                                    SecurityAlgorithms.HmacSha512Signature
+        //                                );
 
-                    //                var subject = new ClaimsIdentity(new[]
-                    // {
-                    //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    //new Claim(JwtRegisteredClaimNames.Email, user.UserName),
-                    //});
+        //            //                var subject = new ClaimsIdentity(new[]
+        //            // {
+        //            //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+        //            //new Claim(JwtRegisteredClaimNames.Email, user.UserName),
+        //            //});
 
-                    var expires = DateTime.UtcNow.AddMinutes(10);
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        //Subject = subject,
-                        Expires = DateTime.UtcNow.AddMinutes(10),
-                        Issuer = issuer,
-                        Audience = audience,
-                        SigningCredentials = signingCredentials
-                    };
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
-                    jwtToken = tokenHandler.WriteToken(token);
+        //            var expires = DateTime.UtcNow.AddMinutes(10);
+        //            var tokenDescriptor = new SecurityTokenDescriptor
+        //            {
+        //                //Subject = subject,
+        //                Expires = DateTime.UtcNow.AddMinutes(10),
+        //                Issuer = issuer,
+        //                Audience = audience,
+        //                SigningCredentials = signingCredentials
+        //            };
+        //            var tokenHandler = new JwtSecurityTokenHandler();
+        //            var token = tokenHandler.CreateToken(tokenDescriptor);
+        //            jwtToken = tokenHandler.WriteToken(token);
 
-                    result.JWT= jwtToken;
-                }
-            }
-            return Ok(result);
+        //            result.JWT= jwtToken;
+        //        }
+        //    }
+        //    return Ok(result);
 
             //if (result.returnId != -1)
             //{
@@ -136,7 +136,29 @@ namespace ZyaelAPI.Controllers.Users
 
             //}
 
+        
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> SetUserLogin([FromBody] UserLoginModel item)
+        {
+            UserLoginModel result = new UserLoginModel();
+            result = await _userlogin.SetUserLogin(item);
+
+            if (result.returnId != -1)
+            {
+
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+
+            }
+
         }
+
 
     }
 }

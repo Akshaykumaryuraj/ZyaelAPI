@@ -38,7 +38,7 @@ namespace Zyael_DAL.Clinic
                                 ClinicVendorID = ClinicVendorID
 
                             };
-                    return (await con.QueryAsync<ClinicModel>("Sp_GetHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                    return (await con.QueryAsync<ClinicModel>("Sp_GetClinicRegistrationDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -65,14 +65,21 @@ namespace Zyael_DAL.Clinic
                                 ClinicVendorEmail = item.ClinicVendorEmail,
                                 ClinicVendorPassword = item.ClinicVendorPassword,
                                 ClinicVendorUserName = item.ClinicVendorUserName,
+                                ClinicVendorName = item.ClinicVendorName,
+                                ClinicAddress_1 = item.ClinicAddress_1,
+                                ClinicAddress_2 = item.ClinicAddress_2,
+                                Street = item.Street,
+                                City = item.City,
+                                State = item.State,
+                                Pincode = item.Pincode,
+                                GoogleMapLink = item.GoogleMapLink,
                                 status = item.status,
-
-
-
-
+                                Latitude = item.Latitude,
+                                Longitude = item.Longitude
+                     
 
                             };
-                    var response = await con.ExecuteScalarAsync<int>("Sp_SetHospitalCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetClinicRegistrationDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
                 }
             }
@@ -97,7 +104,7 @@ namespace Zyael_DAL.Clinic
                                 ClinicVendorID = ClinicVendorID
 
                             };
-                    var response = await con.ExecuteScalarAsync<ClinicModel>("SP_getHospitalDetailsDelete", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    var response = await con.ExecuteScalarAsync<ClinicModel>("", Param, commandType: System.Data.CommandType.StoredProcedure);
                     return response;
                 }
             }

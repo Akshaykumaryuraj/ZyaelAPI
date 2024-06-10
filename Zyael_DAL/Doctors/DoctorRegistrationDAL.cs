@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Zyael_Models.Doctors;
 using Zyael_Models.Hospitals;
+using Zyael_Models.Masters;
 
 namespace Zyael_DAL.Doctors
 {
@@ -73,7 +74,13 @@ namespace Zyael_DAL.Doctors
                                 City = item.City,
                                 ProficientLanguage = item.ProficientLanguage,
                                 Specialization = item.Specialization,
-                                status = item.status
+                                status = item.status,
+                                DoctorRegisterForHospital=item.DoctorRegisterForHospital,
+                                DoctorRegisterForClinic=item.DoctorRegisterForClinic,
+                                Latitude = item.Latitude,
+                                Longitude = item.Longitude,
+                                Address_1 = item.Address_1,
+                                Address_2 = item.Address_2
 
 
 
@@ -140,6 +147,77 @@ namespace Zyael_DAL.Doctors
             }
 
 
-        
+        public async Task<List<DoctorRegistrationModel>>DoctorsDetailsSearchBy(string data)
+        {
+            try
+            {
+
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+                                data = data
+
+                            };
+                    return (await con.QueryAsync<DoctorRegistrationModel>("Sp_searchDoctorsDetailsSearchBy", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<List<ConsultationCategoryModel>> GetAllConsultationCategoryDetails()
+        {
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+
+                            };
+                    return (await con.QueryAsync<ConsultationCategoryModel>("Sp_GetAllConsultationCategoryDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<ConsultationCategoryModel> GetConsultationCategoryDetailsByID(int CCID)
+        {
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+                                CCID = CCID
+
+                            };
+                    return (await con.QueryAsync<ConsultationCategoryModel>("Sp_GetConsultationCategoryDetailsbyId", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

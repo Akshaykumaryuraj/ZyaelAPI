@@ -48,5 +48,20 @@ namespace Zyael_Services.Con_Services
                 return -1;
             }
         }
+
+
+
+        public async Task<int> UserProfile_Upload(UserProfile_Upload item)
+        {
+            try
+            {
+                var result = await _userprofiledal.UserProfile_Upload(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
     }
 }

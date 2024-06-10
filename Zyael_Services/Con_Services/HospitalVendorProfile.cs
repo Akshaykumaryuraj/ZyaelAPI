@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Zyael_DAL.Hospital;
 using Zyael_DAL.HospitalUserProfile;
+using Zyael_DAL.Users;
 using Zyael_Models.Hospitals;
+using Zyael_Models.Users;
 
 namespace Zyael_Services.Con_Services
 {
@@ -33,5 +35,19 @@ namespace Zyael_Services.Con_Services
             }
         }
 
+
+
+        public async Task<int> HospitalProfileDetails_InsertUpdate(HospitalVendorProfileModel item)
+        {
+            try
+            {
+                var result = await _hospitalvendorprofiledal.HospitalProfileDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
     }
 }

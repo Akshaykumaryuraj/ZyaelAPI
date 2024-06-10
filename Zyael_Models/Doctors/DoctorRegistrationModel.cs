@@ -29,5 +29,12 @@ namespace Zyael_Models.Doctors
         public int MedicalID { get; set; }
         public int UserID { get; set; }
         public int returnId { get; set; }
+        public string DoctorRegisterForHospital { get; set; }
+        public string DoctorRegisterForClinic { get; set; }
+        public decimal  Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public string Address_1 { get; set; }
+        public string Address_2 { get; set; }
+       
     }
 }

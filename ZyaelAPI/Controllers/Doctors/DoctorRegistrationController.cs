@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Zyael_Models.Doctors;
 using Zyael_Models.Hospitals;
+using Zyael_Models.Masters;
 using Zyael_Services.Con_Services;
+using Zyael_Services.Con_Services.Masters;
 
 namespace ZyaelAPI.Controllers.Doctors
 {
@@ -52,7 +54,7 @@ namespace ZyaelAPI.Controllers.Doctors
             {
 
                 test.returnId = result;
-                test.message = "inserted successfully";
+                test.message = "Sigup successful";
                 return Ok(test);
 
 
@@ -97,6 +99,51 @@ namespace ZyaelAPI.Controllers.Doctors
             list = await _doctorRegistration.GetAllDoctorsRegistrationCredentialDetails();
 
             return Ok(list);
+
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> DoctorsDetailsSearchBy( string data)
+        {
+            List<DoctorRegistrationModel> result = new List<DoctorRegistrationModel>();
+
+             result = await _doctorRegistration.DoctorsDetailsSearchBy(data);
+
+            
+            return Ok(result);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllConsultationCategoryDetails()
+        {
+            List<ConsultationCategoryModel> list = new List<ConsultationCategoryModel>();
+            list = await _doctorRegistration.GetAllConsultationCategoryDetails();
+
+            return Ok(list);
+
+        }
+
+
+        [HttpGet("[action]")]
+        //[Route("api/[controller]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetConsultationCategoryDetailsByID(int CCID)
+        {
+            ConsultationCategoryModel item = new ConsultationCategoryModel();
+            if (CCID > 0)
+            {
+                item = await _doctorRegistration.GetConsultationCategoryDetailsByID(CCID);
+
+                item.CCID = CCID;
+            }
+
+            return Ok(item);
 
         }
 

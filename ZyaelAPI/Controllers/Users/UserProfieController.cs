@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+using System.Net.Http.Headers;
+using System.Reflection;
 using Zyael_Models.Logins;
 using Zyael_Models.Users;
 using Zyael_Services.Con_Services;
@@ -12,15 +15,17 @@ namespace ZyaelAPI.Controllers.Users
     {
         readonly IHttpContextAccessor _httpContextAccessor;
         readonly IHostEnvironment _hostingEnvironment;
+        readonly IWebHostEnvironment _webhostingEnvironment;
         public UserProfie _userprofile;
         public IConfiguration config;
 
-        public UserProfileController(IHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IConfiguration config)
+        public UserProfileController(IHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IConfiguration config, IWebHostEnvironment webhostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
             _httpContextAccessor = httpContextAccessor;
             _userprofile = new UserProfie(httpContextAccessor, config);
             this.config = config;
+            _webhostingEnvironment = webhostingEnvironment;
         }
 
 
@@ -46,9 +51,43 @@ namespace ZyaelAPI.Controllers.Users
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
-        public async Task<IActionResult> UserProfileDetails_InsertUpdate(UserProfileModel item)
+        public async Task<IActionResult> UserProfileDetails_InsertUpdate([FromBody] UserProfileModel item)
         {
             UserProfileModel test = new UserProfileModel();
+
+
+            //if (item.UserProfileImage != null)
+            //{
+            //    try
+            //    {
+            //        var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/"+"UserProfileImageUpload" +"/" + "UserProfileImage" + "/";
+            //        var fileName = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).FileName;
+            //        var filesize = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).Size;
+            //        fileName = fileName.Contains("\\")
+            //            ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+            //            : fileName.Trim('"');
+            //        if (!Directory.Exists(samplefilepath))
+            //        {
+            //            Directory.CreateDirectory(samplefilepath);
+            //        }
+            //        var extension = Path.GetExtension(fileName);
+            //        var FileGuid = Guid.NewGuid();
+            //        var fullFilePath = Path.Combine(
+            //            samplefilepath + "/",
+            //            FileGuid + extension);
+            //        item.UserImagePath = "/" + "UserImage" + "/" + FileGuid + extension;
+            //        item.UserImageName = fileName;
+            //        using (var stream = new FileStream(fullFilePath, FileMode.Create))
+            //        {
+            //            await item.UserProfileImage.CopyToAsync(stream);
+            //        }
+            //        item.UserImagePath = fullFilePath;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        item.UserImageName = "";
+            //    }
+            //}
 
             var result = await _userprofile.UserProfileDetails_InsertUpdate(item);
 
@@ -56,7 +95,7 @@ namespace ZyaelAPI.Controllers.Users
             {
 
                 test.returnId = result;
-                test.message = "inserted successfully";
+                test.message = "Profile Added Successfully";
                 return Ok(test);
 
 
@@ -64,7 +103,162 @@ namespace ZyaelAPI.Controllers.Users
             else if (result == 2)
             {
                 test.returnId = result;
-                test.message = "updated successfully";
+                test.message = "Profile updated successfully";
+                return Ok(test);
+
+            }
+            return Ok(result);
+        }
+
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[HttpPost]
+        //public async Task<IActionResult> UserProfileImageDetails_InsertUpdate(UserProfileModel item)
+        //{
+        //    UserProfileModel test = new UserProfileModel();
+
+        //    foreach (var item1 in item.UserProfileImage)
+        //    {
+
+        //        if (item1.FileName == null || item1.FileName.Length == 0)
+        //        {
+        //            return Content("File not selected");
+        //        }
+        //        var path = Path.Combine(_environment.WebRootPath, "Images/", item1.FileName);
+
+        //        using (FileStream stream = new FileStream(path, FileMode.Create))
+        //        {
+        //            await item1.CopyToAsync(stream);
+        //            stream.Close();
+        //        }
+
+
+        //        //Insert In User Profile table
+        //        var UserProfileModel = new UserProfilePicture
+        //        {
+        //            UserImageName = item1.FileName,
+        //            UserImagePath = path
+
+        //        };
+        //        var result = await _userprofile.UserProfileDetails_InsertUpdate(item);
+
+        //        if (result == 0)
+        //        {
+
+        //            test.returnId = result;
+        //            test.message = "inserted successfully";
+        //            return Ok(test);
+
+
+        //        }
+        //        else if (result == 2)
+        //        {
+        //            test.returnId = result;
+        //            test.message = "updated successfully";
+        //            return Ok(test);
+
+        //        }
+        //        return Ok(result);
+        //    }
+
+        //}
+
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UploadFile(IFormFile file, CancellationToken cancellationtoken)
+        {
+            var result = await WriteFile(file);
+            return Ok(result);
+        }
+
+        private async Task<string> WriteFile(IFormFile file)
+        {
+            string filename = "";
+            try
+            {
+                var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
+                filename = DateTime.Now.Ticks.ToString() + extension;
+
+                var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files");
+
+                if (!Directory.Exists(filepath))
+                {
+                    Directory.CreateDirectory(filepath);
+                }
+
+                var exactpath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", filename);
+                using (var stream = new FileStream(exactpath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return filename;
+        }
+
+
+
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UserProfile_Upload(UserProfile_Upload item)
+        {
+            UserProfile_Upload test = new UserProfile_Upload();
+
+
+            if (item.UserProfileImage != null)
+            {
+                try
+                {
+                    var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "UserProfileImageUpload" + "/" + "UserProfileImage" + "/";
+                    var fileName = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).FileName;
+                    var filesize = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).Size;
+                    fileName = fileName.Contains("\\")
+                        ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                        : fileName.Trim('"');
+                    if (!Directory.Exists(samplefilepath))
+                    {
+                        Directory.CreateDirectory(samplefilepath);
+                    }
+                    var extension = Path.GetExtension(fileName);
+                    var FileGuid = Guid.NewGuid();
+                    var fullFilePath = Path.Combine(
+                        samplefilepath + "/",
+                        FileGuid + extension);
+                    item.UserImagePath = "/" + "UserImage" + "/" + FileGuid + extension;
+                    item.UserImageName = fileName;
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await item.UserProfileImage.CopyToAsync(stream);
+                    }
+                    item.UserImagePath = fullFilePath;
+                }
+                catch (Exception ex)
+                {
+                    item.UserImageName = "";
+                }
+            }
+
+            var result = await _userprofile.UserProfile_Upload(item);
+
+            if (result == 0)
+            {
+
+                test.returnId = result;
+                test.message = "Profile  Image Added Successfully";
+                return Ok(test);
+
+
+            }
+            else if (result == 2)
+            {
+                test.returnId = result;
+                test.message = "Profile Image updated successfully";
                 return Ok(test);
 
             }
@@ -72,5 +266,21 @@ namespace ZyaelAPI.Controllers.Users
         }
 
 
+        [HttpGet]
+        [Route("DownloadFile")]
+        public async Task<IActionResult> DownloadFile(string filename)
+        {
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), "UserProfileImageUpload\\UserProfileImage", filename);
+
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(filepath, out var contenttype))
+            {
+                contenttype = "application/octet-stream";
+            }
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(filepath);
+            //return Content(File.ReadAllText("somefile.html"));
+            return File(bytes, contenttype, Path.GetFileName(filepath));
+        }
     }
 }

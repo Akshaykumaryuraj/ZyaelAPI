@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zyael_Models.Hospitals;
+using Zyael_Models.Users;
 
 namespace Zyael_DAL.HospitalUserProfile
 {
@@ -43,5 +44,49 @@ namespace Zyael_DAL.HospitalUserProfile
                 return null;
             }
         }
+
+
+        public async Task<int> HospitalProfileDetails_InsertUpdate(HospitalVendorProfileModel item)
+        {
+
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+                                HospitalProfileID = item.HospitalProfileID,
+                                HospitalVendorID = item.HospitalVendorID,
+                                HospitalVendorUserName = item.HospitalVendorUserName,
+                                HospitalVendorEmail = item.HospitalVendorEmail,
+                                FirstName = item.FirstName,
+                                LastName = item.LastName,
+                                Location = item.Location,              
+                                ContactNumber = item.ContactNumber,
+                                EmergencyContact = item.EmergencyContact,
+                                Rating = item.Rating,
+                                Specialization=item.Specialization
+                                //HospitalProfileImageName=item.HospitalProfileImageName,
+                                //HospitalProfileImagePath=item.HospitalProfileImagePath
+
+
+
+
+
+
+                            };
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetHospitalProfileDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
     }
 }

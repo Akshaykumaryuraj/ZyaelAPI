@@ -59,11 +59,12 @@ namespace Zyael_DAL.Logins
                             new
                             {
                                 UserID = item.UserID,
-                                FirstName = item.FirstName,
-                                Email = item.Email,
+                                //FirstName = item.FirstName,
+                                //Email = item.Email,
                                 PhoneNumber = item.PhoneNumber,
-                                Password = item.Password
-                              
+                                UID = item.UID
+                                //Password = item.Password
+
 
 
                             };
@@ -90,8 +91,8 @@ namespace Zyael_DAL.Logins
                         new
                         {
 
-                            Email = item.Email,
-                            Password = item.Password
+                            PhoneNumber = item.PhoneNumber,
+                            UID = item.UID
 
                         };
                     return (await con.QueryAsync<UserLoginModel>("sp_checkUserLogin", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
