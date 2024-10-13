@@ -35,6 +35,23 @@ namespace Zyael_Services.Con_Services.Masters
                 return null;
             }
         }
+
+
+
+
+
+        public async Task<int> SymptomImageUpload(symptomsImage img)
+        {
+            try
+            {
+                var result = await _symptomsdal.SymptomImageUpload(img);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
         public async Task<List<symptomslist>> GetSymptoms()
         {
             try

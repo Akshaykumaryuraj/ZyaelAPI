@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,7 @@ namespace Zyael_Models.Clinics
         public string City { get; set; }
         public string State { get; set; }
         public string Pincode { get; set; }
+        public bool status { get; set; }
 
 
         //public string Address_1 { get; set; }
@@ -40,6 +42,9 @@ namespace Zyael_Models.Clinics
 
         //public string ClinicProfileImageName { get; set; }
         //public string ClinicProfileImagePath { get; set; }
+
+        public string ClinicProfileImageName { get; set; }
+        public string ClinicProfileImagePath { get; set; }
     }
 
     public class ClinicDoctorModel
@@ -76,6 +81,8 @@ namespace Zyael_Models.Clinics
 
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+        public string ClinicDoctorProfileImageName { get; set; }
+        public string ClinicDoctorProfileImagePath { get; set; }
 
 
     }
@@ -108,5 +115,33 @@ namespace Zyael_Models.Clinics
 
     }
 
+
+    public class ClinicVendorProfileImageModel
+    {
+        public int ClinicProfileID { get; set; }
+        public int ClinicProfileImageID { get; set; }
+        public int ClinicVendorID { get; set; }
+        public IFormFile ClinicProfileImage { get; set; }
+
+        public string ClinicProfileImageName { get; set; }
+        public string ClinicProfileImagePath { get; set; }
+        public int returnId { get; set; }
+        public string message { get; set; }
+    }
+
+
+
+    public class ClinicDoctorProfileImageModel
+    {
+        public int ClinicProfileID { get; set; }
+        public int ClinicDoctorProfileImageID { get; set; }
+        public int ClinicVendorID { get; set; }
+        public IFormFile ClinicDoctorProfileImage { get; set; }
+
+        public string ClinicDoctorProfileImageName { get; set; }
+        public string ClinicDoctorProfileImagePath { get; set; }
+        public int returnId { get; set; }
+        public string message { get; set; }
+    }
 
 }

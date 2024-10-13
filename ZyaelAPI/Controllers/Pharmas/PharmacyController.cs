@@ -93,11 +93,24 @@ namespace ZyaelAPI.Controllers.Pharmas
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAllPharmacyVendorCredentialDetails()
         {
             List<PharmacyModel> list = new List<PharmacyModel>();
             list = await _pharmacy.GetAllPharmacyVendorCredentialDetails();
+
+            return Ok(list);
+
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllPharmacyVendorProfileDetails()
+        {
+            List<PharmacyModel> list = new List<PharmacyModel>();
+            list = await _pharmacy.GetAllPharmacyVendorProfileDetails();
 
             return Ok(list);
 

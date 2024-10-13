@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zyael_DAL.Doctors;
+using Zyael_DAL.Logins;
 using Zyael_DAL.Users;
 using Zyael_Models.Doctors;
+using Zyael_Models.Logins;
 using Zyael_Models.Users;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -114,6 +116,20 @@ namespace Zyael_Services.Con_Services
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+
+        public async Task<int> UserCancelAppointmentDetails_InsertUpdate(UserCancelAppointmentModel item)
+        {
+            try
+            {
+                var result = await _userappointmentdal.UserCancelAppointmentDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
             }
         }
 

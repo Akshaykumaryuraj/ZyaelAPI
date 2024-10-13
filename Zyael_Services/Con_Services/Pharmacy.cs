@@ -73,5 +73,19 @@ namespace Zyael_Services.Con_Services
             }
         }
 
+
+        public async Task<List<PharmacyModel>> GetAllPharmacyVendorProfileDetails()
+        {
+            try
+            {
+                var result = await _pharmacydal.GetAllPharmacyVendorProfileDetails();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

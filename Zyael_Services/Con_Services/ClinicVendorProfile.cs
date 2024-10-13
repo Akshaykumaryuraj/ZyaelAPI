@@ -126,6 +126,33 @@ namespace Zyael_Services.Con_Services
             }
         }
 
+
+        public async Task<int> ClinicVendorProfileImageDetails_InsertUpdate(ClinicVendorProfileImageModel item)
+        {
+            try
+            {
+                var result = await _clinicvendorprofiledal.ClinicVendorProfileImageDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+        public async Task<int> ClinicDoctorProfileImageDetails_InsertUpdate(ClinicDoctorProfileImageModel item)
+        {
+            try
+            {
+                var result = await _clinicvendorprofiledal.ClinicDoctorProfileImageDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
     }
 }
 

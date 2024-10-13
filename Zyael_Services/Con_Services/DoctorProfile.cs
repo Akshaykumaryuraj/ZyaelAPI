@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zyael_DAL.Doctors;
+using Zyael_DAL.Notifications;
 using Zyael_DAL.PharmacyDAL;
 using Zyael_Models.Doctors;
+using Zyael_Models.Notifications;
 using Zyael_Models.Pharmacy;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -117,6 +119,20 @@ namespace Zyael_Services.Con_Services
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+
+        public async Task<int> DoctorProfileImageDetails_InsertUpdate(DoctorProfileImageModel item)
+        {
+            try
+            {
+                var result = await _doctorprofiledal.DoctorProfileImageDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 using System.Security.Claims;
+using Zyael_Models.Clinics;
 using Zyael_Models.Doctors;
 using Zyael_Models.InternalDoctor;
 using Zyael_Models.Users;
@@ -81,8 +83,68 @@ namespace ZyaelAPI.Controllers.InternalDoctors
         {
             List<ShiftSlotDateModel> result = new List<ShiftSlotDateModel>();
             //List<slots> res = new List<slots>();
-
             result = await _internaldoctor.GetInternalDoctorSlotsByDateandID(IDoctorID, Date);
+            return Ok(result);
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> InternalDoctorProfileImageDetails_InsertUpdate(InternalDoctorProfileImageModel item)
+        {
+            InternalDoctorProfileImageModel test = new InternalDoctorProfileImageModel();
+
+
+            if (item.IDoctorProfileImage != null)
+            {
+                try
+                {
+                    var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "IDoctorProfileImageUpload" + "/" + "IDoctorProfileImage" + "/";
+                    var fileName = ContentDispositionHeaderValue.Parse(item.IDoctorProfileImage.ContentDisposition).FileName;
+                    var filesize = ContentDispositionHeaderValue.Parse(item.IDoctorProfileImage.ContentDisposition).Size;
+                    fileName = fileName.Contains("\\")
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
+                    if (!Directory.Exists(samplefilepath))
+                    {
+                        Directory.CreateDirectory(samplefilepath);
+                    }
+                    var extension = Path.GetExtension(fileName);
+                    var FileGuid = Guid.NewGuid();
+                    var fullFilePath = Path.Combine(
+                        "IDoctorProfileImageUpload" + "/",
+                        FileGuid + extension);
+                    item.IDoctorProfileImagePath = "/" + "IDoctorProfileImage" + "/" + FileGuid + extension;
+                    item.IDoctorProfileImageName = fileName;
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await item.IDoctorProfileImage.CopyToAsync(stream);
+                    }
+                    item.IDoctorProfileImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
+                }
+                catch (Exception ex)
+                {
+                    item.IDoctorProfileImageName = "";
+                }
+            }
+
+            var result = await _internaldoctor.InternalDoctorProfileImageDetails_InsertUpdate(item);
+
+            if (result == 0)
+            {
+
+                test.returnId = result;
+                test.message = "Internal doctor Profile Image Uploaded Successfully";
+                return Ok(test);
+
+
+            }
+            else if (result == 2)
+            {
+                test.returnId = result;
+                test.message = "Internal doctor Profile Image updated successfully";
+                return Ok(test);
+
+            }
             return Ok(result);
         }
 

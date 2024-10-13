@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zyael_DAL.DiagnosticLab;
+using Zyael_DAL.Doctors;
 using Zyael_Models.DiagnosticLabs;
+using Zyael_Models.Doctors;
 
 namespace Zyael_Services.Con_Services
 {
@@ -44,6 +46,20 @@ namespace Zyael_Services.Con_Services
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+
+        public async Task<int> DiagnosticLabProfileImageDetails_InsertUpdate(DiagnosticLabProfileImageModel item)
+        {
+            try
+            {
+                var result = await _diagnosticprofiledal.DiagnosticLabProfileImageDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
             }
         }
     }

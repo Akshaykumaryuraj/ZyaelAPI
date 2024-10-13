@@ -13,6 +13,7 @@ namespace Zyael_Models.Notifications
         public int returnId { get; set; }
         public string message { get; set; }
         public string NotificationTitle { get; set; }
+        public string NotificationType { get; set; }
         public string NotificationDescription { get; set; }
         public IFormFile NotificationImage { get; set; }
 

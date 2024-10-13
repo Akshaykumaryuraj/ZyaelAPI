@@ -152,7 +152,7 @@ namespace Zyael_DAL.Clinic
 
 
                             };
-                    return (await con.QueryAsync<ClinicDoctorModel>("SP_getClinicDetailsByClinicVendorID", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                    return (await con.QueryAsync<ClinicDoctorModel>("SP_getClinicDoctorDetailsByClinicVendorID", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
 
 
                 }
@@ -316,6 +316,69 @@ namespace Zyael_DAL.Clinic
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+
+        public async Task<int> ClinicVendorProfileImageDetails_InsertUpdate(ClinicVendorProfileImageModel item)
+        {
+
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+
+                                ClinicProfileImageID = item.ClinicProfileImageID,
+                                ClinicVendorID = item.ClinicVendorID,
+                                ClinicProfileID = item.ClinicProfileID,
+                                ClinicProfileImageName = item.ClinicProfileImageName,
+                                ClinicProfileImagePath = item.ClinicProfileImagePath
+
+                            };
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetClinicVendorProfileImageDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+
+
+        public async Task<int> ClinicDoctorProfileImageDetails_InsertUpdate(ClinicDoctorProfileImageModel item)
+        {
+
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+
+                                ClinicDoctorProfileImageID = item.ClinicDoctorProfileImageID,
+                                ClinicVendorID = item.ClinicVendorID,
+                                ClinicProfileID = item.ClinicProfileID,
+                                ClinicDoctorProfileImageName = item.ClinicDoctorProfileImageName,
+                                ClinicDoctorProfileImagePath = item.ClinicDoctorProfileImagePath
+
+                            };
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetClinicDoctorProfileImageDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
             }
         }
     }

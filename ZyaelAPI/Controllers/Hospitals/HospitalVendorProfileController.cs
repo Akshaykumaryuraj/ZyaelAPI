@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using Zyael_Models.Doctors;
 using Zyael_Models.Hospitals;
 using Zyael_Models.Users;
 using Zyael_Services.Con_Services;
@@ -100,5 +101,68 @@ namespace ZyaelAPI.Controllers.Hospitals
             }
             return Ok(result);
         }
+
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> HospitalVendorProfileImageDetails_InsertUpdate(HospitalVendorProfileImageModel item)
+        {
+            HospitalVendorProfileImageModel test = new HospitalVendorProfileImageModel();
+
+
+            if (item.HospitalProfileImage != null)
+            {
+                try
+                {
+                    var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "HospitalProfileImageUpload" + "/" + "HospitalProfileImage" + "/";
+                    var fileName = ContentDispositionHeaderValue.Parse(item.HospitalProfileImage.ContentDisposition).FileName;
+                    var filesize = ContentDispositionHeaderValue.Parse(item.HospitalProfileImage.ContentDisposition).Size;
+                    fileName = fileName.Contains("\\")
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
+                    if (!Directory.Exists(samplefilepath))
+                    {
+                        Directory.CreateDirectory(samplefilepath);
+                    }
+                    var extension = Path.GetExtension(fileName);
+                    var FileGuid = Guid.NewGuid();
+                    var fullFilePath = Path.Combine(
+                        "HospitalProfileImageUpload" + "/",
+                        FileGuid + extension);
+                    item.HospitalProfileImagePath = "/" + "HospitalProfileImage" + "/" + FileGuid + extension;
+                    item.HospitalProfileImageName = fileName;
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await item.HospitalProfileImage.CopyToAsync(stream);
+                    }
+                    item.HospitalProfileImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
+                }
+                catch (Exception ex)
+                {
+                    item.HospitalProfileImageName = "";
+                }
+            }
+
+            var result = await _hospitalvendorprofile.HospitalVendorProfileImageDetails_InsertUpdate(item);
+
+            if (result == 0)
+            {
+
+                test.returnId = result;
+                test.message = "Hospital Vendor Profile Image Uploaded Successfully";
+                return Ok(test);
+
+
+            }
+            else if (result == 2)
+            {
+                test.returnId = result;
+                test.message = "Hospital Vendor Profile updated successfully";
+                return Ok(test);
+
+            }
+            return Ok(result);
+        }
+
     }
 }

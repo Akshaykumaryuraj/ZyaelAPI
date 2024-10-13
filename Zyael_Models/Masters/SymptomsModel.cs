@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Zyael_Models.Masters
         public string SymptomTitle { get; set; }
         public List<symptomslist> symptomslist { get; set; }
         public bool Priority { get; set; }
+      
 
     }
 
@@ -21,6 +23,21 @@ namespace Zyael_Models.Masters
         public string SymptomTitle { get; set; }
 
         public bool Priority { get; set; }
+        public string SymptomProfileImagePath { get; set; }
 
+
+
+    }
+
+    public class symptomsImage
+    {
+        public int SymptomsID { get; set; }
+        public int SymptomsImageID { get; set; }
+        public string SymptomTitle { get; set; }
+
+        public IFormFile SymptomProfileImage { get; set; }
+
+        public string SymptomProfileImageName { get; set; }
+        public string SymptomProfileImagePath { get; set; }
     }
 }

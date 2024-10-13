@@ -45,5 +45,35 @@ namespace Zyael_Services.Con_Services
                 return null;
             }
         }
+
+
+
+        public async Task<DigitalConsultationLoginModel> SetDigitalConsultationVendorLogin(DigitalConsultationLoginModel item)
+        {
+            try
+            {
+                var result = await _logindal.SetDigitalConsultationVendorLogin(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<ClinicConsultationLoginModel> SetClinicConsultationVendorLogin(ClinicConsultationLoginModel item)
+        {
+            try
+            {
+                var result = await _logindal.SetClinicConsultationVendorLogin(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
+
 }

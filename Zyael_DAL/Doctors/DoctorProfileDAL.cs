@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zyael_Models.Doctors;
+using Zyael_Models.Notifications;
 using Zyael_Models.Pharmacy;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -281,6 +282,11 @@ namespace Zyael_DAL.Doctors
                                     DoctorProcedure = item.DoctorProcedure,
                                     DoctorProcedure_1 = item.DoctorProcedure_1,
                                     DoctorProcedure_2 = item.DoctorProcedure_2
+                                    //DoctorProfileImageName = item.DoctorProfileImageName,
+                                    //DoctorProfileImagePath = item.DoctorProfileImagePath
+                                    //DoctorProfileImageName = img.DoctorProfileImageName,
+                                    //DoctorProfileImagePath = img.DoctorProfileImagePath
+
 
                                 };
                         var response = await con.ExecuteScalarAsync<int>("Sp_SetDoctorProfileDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
@@ -334,6 +340,37 @@ namespace Zyael_DAL.Doctors
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+
+        public async Task<int> DoctorProfileImageDetails_InsertUpdate(DoctorProfileImageModel item)
+        {
+
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+
+                                DoctorProfileImageID = item.DoctorProfileImageID,
+                                DoctorID = item.DoctorID,
+                                DoctorPId = item.DoctorPId,
+                                DoctorProfileImageName = item.DoctorProfileImageName,
+                                DoctorProfileImagePath = item.DoctorProfileImagePath
+
+                            };
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetDoctorProfileImageDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
             }
         }
 

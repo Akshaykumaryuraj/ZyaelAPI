@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,13 @@ namespace Zyael_Models.Masters
         public int SpecialityID { get; set; }
         public string SpecialityName { get; set; }
         public string SpecialityCode { get; set; }
-        public string SpecialityImage { get; set; }
+        public string Symptoms { get; set; }
+        public IFormFile SpecialityProfileImage { get; set; }
+
+        public string SpecialityProfileImageName { get; set; }
+        public string SpecialityProfileImagePath { get; set; }
         public int returnId { get; set; }
         public string message { get; set; }
-        public string Symptoms { get; set; }
+        public bool status { get; set; }
     }
 }

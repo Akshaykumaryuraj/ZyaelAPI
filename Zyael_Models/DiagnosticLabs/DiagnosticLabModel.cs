@@ -24,7 +24,12 @@ namespace Zyael_Models.DiagnosticLabs
         public string Country { get; set; }
         public string State { get; set; }
         public string City { get; set; }
+        public string Pincode { get; set; }
+        public string DiagnosticLabProfileImageName { get; set; }
+        public string DiagnosticLabProfileImagePath { get; set; }
 
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
         public int returnId { get; set; }
 
         public bool status { get; set; }

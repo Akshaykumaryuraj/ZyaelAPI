@@ -79,6 +79,58 @@ namespace Zyael_DAL
         }
 
 
+        public async Task<DigitalConsultationLoginModel> SetDigitalConsultationVendorLogin(DigitalConsultationLoginModel item)
+        {
+            //var password = common.PasswordEncription(item.Password);
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                        new
+                        {
+
+                            EmailAddress = item.EmailAddress,
+                            Password = item.Password
+                        };
+                    return (await con.QueryAsync<DigitalConsultationLoginModel>("sp_checkDigitalConsultationVendorLoginDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<ClinicConsultationLoginModel> SetClinicConsultationVendorLogin(ClinicConsultationLoginModel item)
+        {
+            //var password = common.PasswordEncription(item.Password);
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                        new
+                        {
+
+                            ClinicVendorEmail = item.ClinicVendorEmail,
+                            ClinicVendorPassword = item.ClinicVendorPassword
+                        };
+                    return (await con.QueryAsync<ClinicConsultationLoginModel>("sp_checkClinicalConsultationVendorLoginDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
     }
 }

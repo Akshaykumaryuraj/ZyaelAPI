@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 using Zyael_Models.Doctors;
 using Zyael_Models.Masters;
 using Zyael_Services.Con_Services;
@@ -28,7 +29,53 @@ namespace ZyaelAPI.Controllers.Masters
         [HttpPost("[action]")]
         public async Task<IActionResult> SetSymptoms(string SymptomTitle,[FromBody] List<symptomslist> item)
         {
+           
             var result = await _symptoms.SetSymptoms(SymptomTitle,item);
+
+            return Ok(result);
+        }
+
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult>SymptomImageUpload(symptomsImage img)
+        {
+            SymptomsModel test = new SymptomsModel();
+            if (img.SymptomProfileImage != null)
+            {
+                try
+                {
+                    var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "SymptomProfileImageUpload" + "/" + "SymptomProfileImage" + "/";
+                    var fileName = ContentDispositionHeaderValue.Parse(img.SymptomProfileImage.ContentDisposition).FileName;
+                    var filesize = ContentDispositionHeaderValue.Parse(img.SymptomProfileImage.ContentDisposition).Size;
+                    fileName = fileName.Contains("\\")
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
+                    if (!Directory.Exists(samplefilepath))
+                    {
+                        Directory.CreateDirectory(samplefilepath);
+                    }
+                    var extension = Path.GetExtension(fileName);
+                    var FileGuid = Guid.NewGuid();
+                    var fullFilePath = Path.Combine(
+                        "SymptomProfileImageUpload" + "/",
+                        FileGuid + extension);
+                    img.SymptomProfileImagePath = "/" + "SymptomProfileImage" + "/" + FileGuid + extension;
+                    img.SymptomProfileImageName = fileName;
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await img.SymptomProfileImage.CopyToAsync(stream);
+                    }
+                    img.SymptomProfileImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
+                }
+                catch (Exception ex)
+                {
+                    img.SymptomProfileImageName = "";
+                }
+            }
+
+
+            var result = await _symptoms.SymptomImageUpload(img);
 
             return Ok(result);
         }

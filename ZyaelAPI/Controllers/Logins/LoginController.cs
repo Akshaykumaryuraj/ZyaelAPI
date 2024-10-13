@@ -92,6 +92,53 @@ namespace ZyaelAPI.Controllers.Logins
         }
 
 
+
+        [Route("api/[controller]/[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost]
+        public async Task<IActionResult> SetDigitalConsultationVendorLogin(DigitalConsultationLoginModel item)
+        {
+            DigitalConsultationLoginModel result = new DigitalConsultationLoginModel();
+            result = await _login.SetDigitalConsultationVendorLogin(item);
+
+            if (result.returnId != -1)
+            {
+                return Ok(result);
+
+
+            }
+            else
+            {
+                return BadRequest("not found");
+
+            }
+        }
+
+
+        [Route("api/[controller]/[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost]
+        public async Task<IActionResult> SetClinicConsultationVendorLogin(ClinicConsultationLoginModel item)
+        {
+            ClinicConsultationLoginModel result = new ClinicConsultationLoginModel();
+            result = await _login.SetClinicConsultationVendorLogin(item);
+
+            if (result.returnId != -1)
+            {
+                return Ok(result);
+
+
+            }
+            else
+            {
+                return BadRequest("not found");
+
+            }
+        }
+
+
     }
 }
 

@@ -95,7 +95,7 @@ namespace ZyaelAPI.Controllers.Users
             {
 
                 test.returnId = result;
-                test.message = "Profile Added Successfully";
+                test.message = "User Profile Uploaded successfully";
                 return Ok(test);
 
 
@@ -103,67 +103,14 @@ namespace ZyaelAPI.Controllers.Users
             else if (result == 2)
             {
                 test.returnId = result;
-                test.message = "Profile updated successfully";
+                test.message = "User Profile updated successfully";
                 return Ok(test);
 
             }
             return Ok(result);
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[HttpPost]
-        //public async Task<IActionResult> UserProfileImageDetails_InsertUpdate(UserProfileModel item)
-        //{
-        //    UserProfileModel test = new UserProfileModel();
-
-        //    foreach (var item1 in item.UserProfileImage)
-        //    {
-
-        //        if (item1.FileName == null || item1.FileName.Length == 0)
-        //        {
-        //            return Content("File not selected");
-        //        }
-        //        var path = Path.Combine(_environment.WebRootPath, "Images/", item1.FileName);
-
-        //        using (FileStream stream = new FileStream(path, FileMode.Create))
-        //        {
-        //            await item1.CopyToAsync(stream);
-        //            stream.Close();
-        //        }
-
-
-        //        //Insert In User Profile table
-        //        var UserProfileModel = new UserProfilePicture
-        //        {
-        //            UserImageName = item1.FileName,
-        //            UserImagePath = path
-
-        //        };
-        //        var result = await _userprofile.UserProfileDetails_InsertUpdate(item);
-
-        //        if (result == 0)
-        //        {
-
-        //            test.returnId = result;
-        //            test.message = "inserted successfully";
-        //            return Ok(test);
-
-
-        //        }
-        //        else if (result == 2)
-        //        {
-        //            test.returnId = result;
-        //            test.message = "updated successfully";
-        //            return Ok(test);
-
-        //        }
-        //        return Ok(result);
-        //    }
-
-        //}
-
-
+    
 
         [HttpPost("[action]")]
         public async Task<IActionResult> UploadFile(IFormFile file, CancellationToken cancellationtoken)
@@ -206,11 +153,44 @@ namespace ZyaelAPI.Controllers.Users
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("[action]")]
-        public async Task<IActionResult> UserProfile_Upload(UserProfile_Upload item)
+        public async Task<IActionResult> UserProfileImage_Upload(UserProfile_Upload item)
         {
             UserProfile_Upload test = new UserProfile_Upload();
 
 
+            //if (item.UserProfileImage != null)
+            //{
+            //    try
+            //    {
+            //        var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "UserProfileImageUpload" + "/" + "UserProfileImage" + "/";
+            //        var fileName = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).FileName;
+            //        var filesize = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).Size;
+            //        fileName = fileName.Contains("\\")
+            //            ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+            //            : fileName.Trim('"');
+            //        if (!Directory.Exists(samplefilepath))
+            //        {
+            //            Directory.CreateDirectory(samplefilepath);
+            //        }
+            //        var extension = Path.GetExtension(fileName);
+            //        var FileGuid = Guid.NewGuid();
+            //        var fullFilePath = Path.Combine(
+            //            samplefilepath + "/",
+            //            FileGuid + extension);
+            //        item.UserImagePath = "/" + "UserProfileImage" + "/" + FileGuid + extension;
+            //        item.UserImageName = fileName;
+            //        using (var stream = new FileStream(fullFilePath, FileMode.Create))
+            //        {
+            //            await item.UserProfileImage.CopyToAsync(stream);
+            //        }
+            //        item.UserImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
+
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        item.UserImageName = "";
+            //    }
+            //}
             if (item.UserProfileImage != null)
             {
                 try
@@ -219,8 +199,8 @@ namespace ZyaelAPI.Controllers.Users
                     var fileName = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).FileName;
                     var filesize = ContentDispositionHeaderValue.Parse(item.UserProfileImage.ContentDisposition).Size;
                     fileName = fileName.Contains("\\")
-                        ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
-                        : fileName.Trim('"');
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
                     if (!Directory.Exists(samplefilepath))
                     {
                         Directory.CreateDirectory(samplefilepath);
@@ -228,29 +208,28 @@ namespace ZyaelAPI.Controllers.Users
                     var extension = Path.GetExtension(fileName);
                     var FileGuid = Guid.NewGuid();
                     var fullFilePath = Path.Combine(
-                        samplefilepath + "/",
+                        "UserProfileImageUpload" + "/",
                         FileGuid + extension);
-                    item.UserImagePath = "/" + "UserImage" + "/" + FileGuid + extension;
+                    item.UserImagePath = "/" + "DoctorProfileImage" + "/" + FileGuid + extension;
                     item.UserImageName = fileName;
                     using (var stream = new FileStream(fullFilePath, FileMode.Create))
                     {
                         await item.UserProfileImage.CopyToAsync(stream);
                     }
-                    item.UserImagePath = fullFilePath;
+                    item.UserImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
                 }
                 catch (Exception ex)
                 {
                     item.UserImageName = "";
                 }
             }
-
             var result = await _userprofile.UserProfile_Upload(item);
 
             if (result == 0)
             {
 
                 test.returnId = result;
-                test.message = "Profile  Image Added Successfully";
+                test.message = "Profile  Image uploaded successfully";
                 return Ok(test);
 
 

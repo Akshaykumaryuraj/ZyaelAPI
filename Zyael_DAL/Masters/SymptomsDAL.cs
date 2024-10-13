@@ -63,6 +63,37 @@ namespace Zyael_DAL.Masters
                 return null;
             }
         }
+
+
+        public async Task<int> SymptomImageUpload(symptomsImage img)
+
+        {
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+                                SymptomsID = img.SymptomsID,
+                                SymptomsImageID = img.SymptomsImageID,
+                                SymptomTitle = img.SymptomTitle,
+                                SymptomProfileImageName = img.SymptomProfileImageName,
+                                SymptomProfileImagePath = img.SymptomProfileImagePath
+
+                            };
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetSymptomImageDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
         public async Task<List<symptomslist>> GetSymptoms()
         {
             try

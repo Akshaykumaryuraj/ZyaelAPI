@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 using Zyael_Models.Clinics;
 using Zyael_Models.Hospitals;
 using Zyael_Models.InternalDoctor;
@@ -135,6 +136,129 @@ namespace ZyaelAPI.Controllers.Clinics
             //List<slots> res = new List<slots>();
 
             result = await _clinicvendorprofile.GetClinicVisitDoctorSlotsByDateandID(ClinicDoctorID, Date);
+            return Ok(result);
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ClinicVendorProfileImageDetails_InsertUpdate(ClinicVendorProfileImageModel item)
+        {
+            ClinicVendorProfileImageModel test = new ClinicVendorProfileImageModel();
+
+
+            if (item.ClinicProfileImage != null)
+            {
+                try
+                {
+                    var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "ClinicProfileImageUpload" + "/" + "ClinicProfileImage" + "/";
+                    var fileName = ContentDispositionHeaderValue.Parse(item.ClinicProfileImage.ContentDisposition).FileName;
+                    var filesize = ContentDispositionHeaderValue.Parse(item.ClinicProfileImage.ContentDisposition).Size;
+                    fileName = fileName.Contains("\\")
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
+                    if (!Directory.Exists(samplefilepath))
+                    {
+                        Directory.CreateDirectory(samplefilepath);
+                    }
+                    var extension = Path.GetExtension(fileName);
+                    var FileGuid = Guid.NewGuid();
+                    var fullFilePath = Path.Combine(
+                        "ClinicProfileImageUpload" + "/",
+                        FileGuid + extension);
+                    item.ClinicProfileImagePath = "/" + "ClinicProfileImage" + "/" + FileGuid + extension;
+                    item.ClinicProfileImageName = fileName;
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await item.ClinicProfileImage.CopyToAsync(stream);
+                    }
+                    item.ClinicProfileImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
+                }
+                catch (Exception ex)
+                {
+                    item.ClinicProfileImageName = "";
+                }
+            }
+
+            var result = await _clinicvendorprofile.ClinicVendorProfileImageDetails_InsertUpdate(item);
+
+            if (result == 0)
+            {
+
+                test.returnId = result;
+                test.message = "Clinic Vendor Profile Image Uploaded Successfully";
+                return Ok(test);
+
+
+            }
+            else if (result == 2)
+            {
+                test.returnId = result;
+                test.message = "Clinic Vendor Profile Image updated successfully";
+                return Ok(test);
+
+            }
+            return Ok(result);
+        }
+
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ClinicDoctorProfileImageDetails_InsertUpdate(ClinicDoctorProfileImageModel item)
+        {
+            ClinicDoctorProfileImageModel test = new ClinicDoctorProfileImageModel();
+
+
+            if (item.ClinicDoctorProfileImage != null)
+            {
+                try
+                {
+                    var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "ClinicDoctorProfileImageUpload" + "/" + "ClinicDoctorProfileImage" + "/";
+                    var fileName = ContentDispositionHeaderValue.Parse(item.ClinicDoctorProfileImage.ContentDisposition).FileName;
+                    var filesize = ContentDispositionHeaderValue.Parse(item.ClinicDoctorProfileImage.ContentDisposition).Size;
+                    fileName = fileName.Contains("\\")
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
+                    if (!Directory.Exists(samplefilepath))
+                    {
+                        Directory.CreateDirectory(samplefilepath);
+                    }
+                    var extension = Path.GetExtension(fileName);
+                    var FileGuid = Guid.NewGuid();
+                    var fullFilePath = Path.Combine(
+                        "ClinicDoctorProfileImageUpload" + "/",
+                        FileGuid + extension);
+                    item.ClinicDoctorProfileImagePath = "/" + "ClinicDoctorProfileImage" + "/" + FileGuid + extension;
+                    item.ClinicDoctorProfileImageName = fileName;
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await item.ClinicDoctorProfileImage.CopyToAsync(stream);
+                    }
+                    item.ClinicDoctorProfileImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
+                }
+                catch (Exception ex)
+                {
+                    item.ClinicDoctorProfileImageName = "";
+                }
+            }
+
+            var result = await _clinicvendorprofile.ClinicDoctorProfileImageDetails_InsertUpdate(item);
+
+            if (result == 0)
+            {
+
+                test.returnId = result;
+                test.message = "Clinical doctor Profile Image Uploaded Successfully";
+                return Ok(test);
+
+
+            }
+            else if (result == 2)
+            {
+                test.returnId = result;
+                test.message = "Clinic doctor Profile Image updated successfully";
+                return Ok(test);
+
+            }
             return Ok(result);
         }
 

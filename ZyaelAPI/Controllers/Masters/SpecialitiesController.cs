@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 using Zyael_Models.Hospitals;
 using Zyael_Models.Masters;
 using Zyael_Models.Users;
@@ -48,6 +49,39 @@ namespace ZyaelAPI.Controllers.Masters
         public async Task<IActionResult> SpecialitiesDetails_InsertUpdate(SpecialitiesModel item)
         {
             SpecialitiesModel test = new SpecialitiesModel();
+            if (item.SpecialityProfileImage != null)
+            {
+                try
+                {
+                    var samplefilepath = $"{this._hostingEnvironment.ContentRootPath}" + "/" + "SpecialityProfileImageUpload" + "/" + "SpecialityProfileImage" + "/";
+                    var fileName = ContentDispositionHeaderValue.Parse(item.SpecialityProfileImage.ContentDisposition).FileName;
+                    var filesize = ContentDispositionHeaderValue.Parse(item.SpecialityProfileImage.ContentDisposition).Size;
+                    fileName = fileName.Contains("\\")
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
+                    if (!Directory.Exists(samplefilepath))
+                    {
+                        Directory.CreateDirectory(samplefilepath);
+                    }
+                    var extension = Path.GetExtension(fileName);
+                    var FileGuid = Guid.NewGuid();
+                    var fullFilePath = Path.Combine(
+                        "SpecialityProfileImageUpload" + "/",
+                        FileGuid + extension);
+                    item.SpecialityProfileImagePath = "/" + "SpecialityProfileImage" + "/" + FileGuid + extension;
+                    item.SpecialityProfileImageName = fileName;
+                    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                    {
+                        await item.SpecialityProfileImage.CopyToAsync(stream);
+                    }
+                    item.SpecialityProfileImagePath = "https://zyael-api.scm.azurewebsites.net/api/vfs/site/wwwroot/" + fullFilePath;
+                }
+                catch (Exception ex)
+                {
+                    item.SpecialityProfileImageName = "";
+                }
+            }
+
 
             var result = await _specialities.SpecialitiesDetails_InsertUpdate(item);
 
@@ -55,7 +89,7 @@ namespace ZyaelAPI.Controllers.Masters
             {
 
                 test.returnId = result;
-                test.message = "inserted successfully";
+                test.message = "Uploaded successfully";
                 return Ok(test);
 
 
@@ -63,7 +97,7 @@ namespace ZyaelAPI.Controllers.Masters
             else if (result == 2)
             {
                 test.returnId = result;
-                test.message = "updated successfully";
+                test.message = "Updated successfully";
                 return Ok(test);
 
             }

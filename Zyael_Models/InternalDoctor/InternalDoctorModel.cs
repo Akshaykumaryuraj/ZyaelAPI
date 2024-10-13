@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,8 @@ namespace Zyael_Models.InternalDoctor
         public string DoctorIntroVideoLink { get; set; }
         public string HospitalVendorUserName { get; set; }
         public int TotalrowCount { get; set; }
+        public string IDoctorProfileImageName { get; set; }
+        public string IDoctorProfileImagePath { get; set; }
 
     }
 
@@ -70,4 +73,20 @@ namespace Zyael_Models.InternalDoctor
         public DateTime Date { get; set; }
 
     }
+
+
+
+    public class InternalDoctorProfileImageModel
+    {
+        public int IDoctorID { get; set; }
+        public int IDoctorProfileImageID { get; set; }
+        public int HospitalVendorID { get; set; }
+        public IFormFile IDoctorProfileImage { get; set; }
+
+        public string IDoctorProfileImageName { get; set; }
+        public string IDoctorProfileImagePath { get; set; }
+        public int returnId { get; set; }
+        public string message { get; set; }
+    }
+
 }

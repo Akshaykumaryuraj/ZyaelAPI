@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
 using Zyael_Models.Doctors;
+using Zyael_Models.Logins;
 using Zyael_Models.Users;
 using Zyael_Services.Con_Services;
 
@@ -204,6 +205,37 @@ namespace ZyaelAPI.Controllers.Users
             }
             return Ok(result);
         }
+
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UserCancelAppointmentDetails_InsertUpdate([FromBody] UserCancelAppointmentModel item)
+        {
+            UserCancelAppointmentModel test = new UserCancelAppointmentModel();
+
+            var result = await _userappointment.UserCancelAppointmentDetails_InsertUpdate(item);
+
+            if (result == 0)
+            {
+
+                test.returnId = result;
+                test.message = "Appointment Cancelled!";
+                return Ok(test);
+
+
+            }
+            else if (result == 2)
+            {
+                test.returnId = result;
+                test.message = "Already Apointment has been cancelled";
+                return Ok(test);
+
+            }
+            return Ok(result);
+        }
+
 
     }
 }

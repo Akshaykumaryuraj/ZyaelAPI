@@ -39,6 +39,7 @@ namespace Zyael_DAL.Notifications
 
                                 NotificationID = item.NotificationID,
                                 NotificationTitle = item.NotificationTitle,
+                                NotificationType = item.NotificationType,
                                 NotificationDescription = item.NotificationDescription,
                                 NotificationImageName = item.NotificationImageName,
                                 NotificationImagePath = item.NotificationImagePath

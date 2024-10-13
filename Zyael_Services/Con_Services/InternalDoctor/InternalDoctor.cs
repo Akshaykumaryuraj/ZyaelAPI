@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zyael_DAL.Clinic;
 using Zyael_DAL.Doctors;
 using Zyael_DAL.HospitalUserProfile;
 using Zyael_DAL.InternalDoctor;
 using Zyael_DAL.Users;
+using Zyael_Models.Clinics;
 using Zyael_Models.Doctors;
 using Zyael_Models.InternalDoctor;
 using Zyael_Models.Users;
@@ -96,6 +98,17 @@ namespace Zyael_Services.Con_Services.InternalDoctor
             }
         }
 
-
+        public async Task<int> InternalDoctorProfileImageDetails_InsertUpdate(InternalDoctorProfileImageModel item)
+        {
+            try
+            {
+                var result = await _internaldoctordal.InternalDoctorProfileImageDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
     }
 }

@@ -70,7 +70,10 @@ namespace Zyael_DAL.DiagnosticLab
                                 Country = item.Country,
                                 State = item.State,
                                 City = item.City,
-                                status= item.status
+                                status= item.status,
+                                Pincode=item.Pincode,
+                                Latitude=item.Latitude,
+                                Longitude=item.Longitude
 
 
                             };

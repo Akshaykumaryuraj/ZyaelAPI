@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zyael_Models.Doctors;
+using Zyael_Models.Logins;
 using Zyael_Models.Users;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -47,7 +48,9 @@ namespace Zyael_DAL.Users
                                     PaymentID= app_dels.PaymentID,
                                     PaymentOrderID= app_dels.PaymentOrderID,
                                     UserRandomID =UserRandomID,
-                                    ConsultationFees= app_dels.ConsultationFees
+                                    ConsultationFees= app_dels.ConsultationFees,
+                                    AppointmentUpdate=app_dels.AppointmentUpdate
+
 
                                 };
                         await con.ExecuteScalarAsync<UserAppointmentScheduleModel>("SP_SetUserAppointmentScheduleDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
@@ -58,6 +61,7 @@ namespace Zyael_DAL.Users
                     result.Date = app_dels.Date;
                     result.UserID= app_dels.UserID;
                     result.UserRandomID = UserRandomID;
+                    result.AppointmentUpdate = app_dels.AppointmentUpdate;
                     result.UserSelectedSlot = app_dels.UserSelectedSlot;
                     result.ConsultationFees = app_dels.ConsultationFees;
                     result.PaymentOrderID = app_dels.PaymentOrderID;
@@ -159,7 +163,9 @@ namespace Zyael_DAL.Users
                                     PaymentID = app_dels.PaymentID,
                                     PaymentOrderID = app_dels.PaymentOrderID,
                                     UserRandomID = UserRandomID,
-                                    ConsultationFees = app_dels.ConsultationFees
+                                    ConsultationFees = app_dels.ConsultationFees,
+                                    AppointmentUpdate = app_dels.AppointmentUpdate
+
 
                                 };
                         await con.ExecuteScalarAsync<UserHospitalAppointmentModel>("SP_SetUserHospitalAppointmentScheduleDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
@@ -171,6 +177,7 @@ namespace Zyael_DAL.Users
                     result.Date = app_dels.Date;
                     result.UserID = app_dels.UserID;
                     result.UserRandomID = UserRandomID;
+                    result.AppointmentUpdate = app_dels.AppointmentUpdate;
                     result.UserSelectedSlot = app_dels.UserSelectedSlot;
                     result.ConsultationFees = app_dels.ConsultationFees;
                     result.PaymentOrderID = app_dels.PaymentOrderID;
@@ -239,7 +246,9 @@ namespace Zyael_DAL.Users
                                     PaymentOrderID = app_dels.PaymentOrderID,
                                     UserRandomID = UserRandomID,
                                     ConsultationFees = app_dels.ConsultationFees,
-                                    ConsultationType = app_dels.ConsultationType
+                                    ConsultationType = app_dels.ConsultationType,
+                                    AppointmentUpdate = app_dels.AppointmentUpdate
+
 
                                 };
                         await con.ExecuteScalarAsync<UserClinicAppointmentModel>("SP_SetUserClinicAppointmentScheduleDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
@@ -251,6 +260,7 @@ namespace Zyael_DAL.Users
                     result.Date = app_dels.Date;
                     result.UserID = app_dels.UserID;
                     result.UserRandomID = UserRandomID;
+                    result.AppointmentUpdate = app_dels.AppointmentUpdate;
                     result.UserSelectedSlot = app_dels.UserSelectedSlot;
                     result.ConsultationFees = app_dels.ConsultationFees;
                     result.PaymentOrderID = app_dels.PaymentOrderID;
@@ -292,6 +302,37 @@ namespace Zyael_DAL.Users
             }
         }
 
+
+
+        public async Task<int> UserCancelAppointmentDetails_InsertUpdate(UserCancelAppointmentModel item)
+        {
+
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+                                UserID = item.UserID,
+                                DoctorID = item.DoctorID,
+                                UAID = item.UAID,
+                                Comment = item.Comment
+
+
+
+                            };
+                    var response = await con.ExecuteScalarAsync<int>("Sp_SetUserAppointmentCancelDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
 
 
     }

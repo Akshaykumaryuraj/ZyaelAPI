@@ -62,7 +62,10 @@ namespace Zyael_DAL.Masters
                                 SpecialityID = item.SpecialityID,
                                 SpecialityName = item.SpecialityName,
                                 SpecialityCode = item.SpecialityCode,
-                                Symptoms = item.Symptoms
+                                Symptoms = item.Symptoms,
+                                SpecialityProfileImageName = item.SpecialityProfileImageName,
+                                SpecialityProfileImagePath = item.SpecialityProfileImagePath,
+                                status=item.status
 
                             };
                     var response = await con.ExecuteScalarAsync<int>("Sp_SetMastersSpecialitiesDetails", Param, commandType: System.Data.CommandType.StoredProcedure);

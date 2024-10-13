@@ -36,7 +36,9 @@ namespace Zyael_Models.Users
         public string Occupation { get; set; }
         public int returnId { get; set; }
         public string message { get; set; }
-        
+        public string UserImageName { get; set; }
+        public string UserImagePath { get; set; }
+
 
     }
     

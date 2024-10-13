@@ -28,5 +28,8 @@ namespace Zyael_Models.PharmacyModel
 
         public bool status { get; set; }
 
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+
     }
 }

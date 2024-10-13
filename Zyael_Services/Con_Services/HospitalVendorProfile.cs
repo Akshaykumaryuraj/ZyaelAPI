@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zyael_DAL.Doctors;
 using Zyael_DAL.Hospital;
 using Zyael_DAL.HospitalUserProfile;
 using Zyael_DAL.Users;
+using Zyael_Models.Doctors;
 using Zyael_Models.Hospitals;
 using Zyael_Models.Users;
 
@@ -49,5 +51,20 @@ namespace Zyael_Services.Con_Services
                 return -1;
             }
         }
+
+        public async Task<int> HospitalVendorProfileImageDetails_InsertUpdate(HospitalVendorProfileImageModel item)
+        {
+            try
+            {
+                var result = await _hospitalvendorprofiledal.HospitalVendorProfileImageDetails_InsertUpdate(item);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+
+
     }
 }

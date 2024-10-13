@@ -29,6 +29,8 @@ namespace Zyael_Models.Users
         public string Time { get; set; }
         public int DoctorID { get; set; }
         public DateTime Date { get; set; }
+        public bool AppointmentUpdate { get; set; }
+
 
     }
 
@@ -52,6 +54,7 @@ namespace Zyael_Models.Users
         public string PaymentID { get; set; }
         public string PaymentOrderID { get; set; }
         public string Status { get; set; }
+        public bool AppointmentUpdate { get; set; }
 
     }
 
@@ -79,6 +82,10 @@ namespace Zyael_Models.Users
         public string Status { get; set; }
         public string UserName { get; set; }
 
+        public bool AppointmentUpdate { get; set; }
+
+
+
     }
 
 
@@ -104,6 +111,8 @@ namespace Zyael_Models.Users
         public string PaymentID { get; set; }
         public string PaymentOrderID { get; set; }
         public string Status { get; set; }
+        public bool AppointmentUpdate { get; set; }
+
 
     }
 
@@ -117,6 +126,20 @@ namespace Zyael_Models.Users
         public string result { get; set; }
 
     }
+
+    public class UserCancelAppointmentModel
+    {
+        public int UserID { get; set; }
+        public int DoctorID { get; set; }
+        public int UAID { get; set; }
+       
+        public string Comment { get; set; }
+        public int returnId { get; set; }
+        public string message { get; set; }
+
+
+    }
+
     public class slots
     {
         public string Time { get; set; }

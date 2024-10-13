@@ -73,11 +73,9 @@ namespace Zyael_DAL.PharmacyDAL
                                 Country = item.Country,
                                 State = item.State,
                                 City = item.City,
-                                status = item.status
-
-
-
-
+                                status = item.status,
+                                Latitude = item.Latitude,
+                                Longitude = item.Longitude
 
                             };
                     var response = await con.ExecuteScalarAsync<int>("Sp_SetPharmacyVendorCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure);
@@ -129,6 +127,28 @@ namespace Zyael_DAL.PharmacyDAL
 
                             };
                     return (await con.QueryAsync<PharmacyModel>("Sp_GetAllPharmacyVendorCredentialDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<PharmacyModel>> GetAllPharmacyVendorProfileDetails()
+        {
+            try
+            {
+                var Connection = new SqlConnection(_config.GetConnectionString("DefautConnection"));
+                using (SqlConnection con = Connection)
+                {
+                    con.Open();
+                    var Param =
+                            new
+                            {
+
+                            };
+                    return (await con.QueryAsync<PharmacyModel>("Sp_GetAllPharmacyVendorProfileDetails", Param, commandType: System.Data.CommandType.StoredProcedure)).ToList();
                 }
             }
             catch (Exception ex)

@@ -44,8 +44,8 @@ namespace ZyaelAPI.Controllers.Notifications
                     var fileName = ContentDispositionHeaderValue.Parse(item.NotificationImage.ContentDisposition).FileName;
                     var filesize = ContentDispositionHeaderValue.Parse(item.NotificationImage.ContentDisposition).Size;
                     fileName = fileName.Contains("\\")
-                        ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
-                        : fileName.Trim('"');
+                     ? fileName.Trim('"').Substring(fileName.LastIndexOf("\\", StringComparison.Ordinal) + 1)
+                    : fileName.Trim('"');
                     if (!Directory.Exists(samplefilepath))
                     {
                         Directory.CreateDirectory(samplefilepath);
@@ -83,7 +83,7 @@ namespace ZyaelAPI.Controllers.Notifications
             else if (result == 2)
             {
                 test.returnId = result;
-                test.message = "Profile updated successfully";
+                test.message = "Notification updated successfully";
                 return Ok(test);
 
             }
